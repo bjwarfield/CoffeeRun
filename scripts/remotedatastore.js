@@ -10,28 +10,36 @@
         this.serverUrl = url;
     }
 
-    RemoteDataStore.prototype.add = (key, val) => {
-        $.post(this.serverUrl, val, (serverResponse) => {
+    RemoteDataStore.prototype.add = function (key, val) {
+        console.log(val);
+        return $.post(this.serverUrl, val, (serverResponse) => {
             console.log(serverResponse);
         });
     };
 
     RemoteDataStore.prototype.getAll = function (cb) {
-        $.get(this.serverUrl, function (serverResponse) {
-            console.log(serverResponse);
-            cb(serverResponse);
+        return $.get(this.serverUrl, function (serverResponse) {
+            if(cb)
+            {
+                console.log(serverResponse);
+                cb(serverResponse);
+            }
         });
     };
 
     RemoteDataStore.prototype.get = (key, cb) => {
-        $.get(this.serverUrl + '/' + key, serverResponse => {
-            console.log(serverResponse);
-            cb(serverResponse);
+        console.log("APIget: ",key);
+        return $.get(this.serverUrl + '/' + key, serverResponse => {
+            if(cb)
+            {
+                console.log(serverResponse);
+                cb(serverResponse);
+            }
         });
     };
 
     RemoteDataStore.prototype.remove = function (key) {
-        $.ajax(this.serverUrl + '/' + key, {
+        return $.ajax(this.serverUrl + '/' + key, {
             type: 'DELETE'
         });
     };
